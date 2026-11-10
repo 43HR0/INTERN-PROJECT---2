@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Candidates · Resume Parser{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <div><p class="eyebrow">CANDIDATE DATABASE</p><h1>Resumes</h1><p class="muted">Search extracted candidate information.</p></div>
+  <a class="button" href="{{ url_for('upload') }}">＋ Upload resume</a>
+</section>
+<form class="search" method="get">
+  <input name="q" value="{{ q }}" placeholder="Search name, email, skills, education…" aria-label="Search candidates">
+  <button type="submit">Search</button>
+  {% if q %}<a href="{{ url_for('index') }}">Clear</a>{% endif %}
+</form>
+{% if candidates %}
+  <div class="candidate-list">
+  {% for candidate in candidates %}
+    <a class="candidate-card" href="{{ url_for('candidate_detail', candidate_id=candidate.id) }}">
+      <div class="avatar">{{ candidate.name[:1]|upper }}</div>
+      <div class="candidate-main"><h2>{{ candidate.name }}</h2><p>{{ candidate.email or "No email detected" }}{% if candidate.phone %} · {{ candidate.phone }}{% endif %}</p>
+      <div class="chips">{% for skill in candidate.skills[:6] %}<span>{{ skill }}</span>{% endfor %}{% if not candidate.skills %}<span>No skills detected</span>{% endif %}</div></div>
+      <span class="arrow">→</span>
+    </a>
+  {% endfor %}
+  </div>
+{% else %}
+  <div class="empty"><div class="empty-icon">⌕</div><h2>No candidates found</h2><p>{% if q %}Try another search term.{% else %}Upload a resume to create your first candidate record.{% endif %}</p><a class="button secondary" href="{{ url_for('upload') }}">Upload a resume</a></div>
+{% endif %}
+{% endblock %}

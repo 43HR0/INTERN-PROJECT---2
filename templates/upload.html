@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Upload resume · Resume Parser{% endblock %}
+{% block content %}
+<a class="back" href="{{ url_for('index') }}">← Back to candidates</a>
+<div class="form-wrap">
+  <p class="eyebrow">NEW CANDIDATE</p><h1>Upload a resume</h1>
+  <p class="muted">We'll extract contact details, skills and education, then save them to your database.</p>
+  <form class="upload-box" method="post" enctype="multipart/form-data">
+    <div class="file-symbol">↑</div>
+    <label for="resume">Choose a resume file</label>
+    <p class="muted small">PDF or DOCX · Maximum 10 MB</p>
+    <input id="resume" name="resume" type="file" accept=".pdf,.docx" required>
+    <button class="button" type="submit">Parse and save resume</button>
+  </form>
+  <p class="notice">Please upload resumes only when you are authorized to process the candidate's personal information. Review extracted fields for accuracy.</p>
+</div>
+{% endblock %}

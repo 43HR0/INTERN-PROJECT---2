@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ candidate.name }} · Resume Parser{% endblock %}
+{% block content %}
+<a class="back" href="{{ url_for('index') }}">← Back to candidates</a>
+<section class="detail-heading"><div><p class="eyebrow">CANDIDATE PROFILE</p><h1>{{ candidate.name }}</h1><p class="muted">{{ candidate.email or "No email detected" }}{% if candidate.phone %} · {{ candidate.phone }}{% endif %}</p></div>
+<form method="post" action="{{ url_for('delete_candidate', candidate_id=candidate.id) }}" onsubmit="return confirm('Delete this candidate record and its uploaded resume?')"><button class="danger-button" type="submit">Delete record</button></form></section>
+<div class="detail-grid">
+  <section class="panel"><h2>Skills</h2>{% if candidate.skills %}<div class="chips">{% for skill in candidate.skills %}<span>{{ skill }}</span>{% endfor %}</div>{% else %}<p class="muted">No skills detected.</p>{% endif %}</section>
+  <section class="panel"><h2>Education</h2>{% if candidate.education %}<ul>{% for item in candidate.education %}<li>{{ item }}</li>{% endfor %}</ul>{% else %}<p class="muted">No education entries detected.</p>{% endif %}</section>
+  <section class="panel full"><h2>Extracted resume text</h2><pre>{{ candidate.resume_text }}</pre></section>
+  <p class="muted small full">Source file: {{ candidate.original_filename }} · Added {{ candidate.created_at.strftime('%Y-%m-%d %H:%M UTC') }}</p>
+</div>
+{% endblock %}
